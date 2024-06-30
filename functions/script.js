@@ -139,44 +139,227 @@ BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
 GOOD LUCK 😀
 */
 
-const poll = {
-  question: "What is your favourite programming language?",
-  options: ["0: JavaScript", "1: Python", "2: Rust", "3: C++"],
+// const poll = {
+//   question: "What is your favourite programming language?",
+//   options: ["0: JavaScript", "1: Python", "2: Rust", "3: C++"],
 
-  //this generater [0, 0, 0, 0].
-  answers: new Array(4).fill(0),
+//   //this generater [0, 0, 0, 0].
+//   answers: new Array(4).fill(0),
 
-  registerNewAnswer() {
-    //Get the answer
-    const answer = Number(
-      prompt(`${this.question}
-      \n${this.options.join("\n")}
-      \n(Write option number)`)
-    );
-    // check if answer type is number and if in asnwers indexes to increase the value at accurate position
-    typeof answer === "number" &&
-      answer <= this.answers.length &&
-      this.answers[answer]++;
-    //
-    // console.log(this.answers);
-    this.displayResults();
-    this.displayResults("string");
-  },
+//   registerNewAnswer() {
+//     //Get the answer
+//     const answer = Number(
+//       prompt(`${this.question}
+//       \n${this.options.join("\n")}
+//       \n(Write option number)`)
+//     );
+//     // check if answer type is number and if in asnwers indexes to increase the value at accurate position
+//     typeof answer === "number" &&
+//       answer <= this.answers.length &&
+//       this.answers[answer]++;
+//     //
+//     // console.log(this.answers);
+//     this.displayResults();
+//     this.displayResults("string");
+//   },
 
-  displayResults(type = "array") {
-    if (type === "array") {
-      console.log(this.answers);
-    } else if (type === "string") {
-      // ('Poll results are 13, 2, 4, 1');
-      console.log(`Poll results are ${this.answers.join(", ")}`);
-    }
-  },
+//   displayResults(type = "array") {
+//     if (type === "array") {
+//       console.log(this.answers);
+//     } else if (type === "string") {
+//       // ('Poll results are 13, 2, 4, 1');
+//       console.log(`Poll results are ${this.answers.join(", ")}`);
+//     }
+//   },
+// };
+// //call method whenever the user clicks the "Answer poll" button.
+// document
+//   .querySelector(".poll")
+//   .addEventListener("click", poll.registerNewAnswer.bind(poll));
+
+// poll.displayResults.call({ answers: [5, 2, 3] }, "string");
+// poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, "string");
+// poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] });
+
+/* ------------- Immidietly Invoked Function Expressions (IIFE) ------------- */
+// (pattern to )
+const runOnce = function () {
+  console.log("This will never run again");
 };
-//call method whenever the user clicks the "Answer poll" button.
-document
-  .querySelector(".poll")
-  .addEventListener("click", poll.registerNewAnswer.bind(poll));
 
-poll.displayResults.call({ answers: [5, 2, 3] }, "string");
-poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, "string");
-poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] });
+runOnce();
+runOnce();
+
+(function () {
+  console.log("This will never run again");
+})();
+
+// function value == function expression in parentese with () at the end to run it immidiatelly
+
+// arrow function
+// () => console.log("This will never run again");
+// wrap in parentesese (formater is removing)
+// (() => console.log("This will never run again"));
+// add ()
+(() => console.log("This will ALSO never run again"))();
+
+// different scopes
+(function () {
+  const isPrivate = 22;
+  console.log("This will never run again");
+})();
+
+//all data defined inside a scope is private // data is encapsulated inside that function
+
+// other scopes are blocks with variables with let and const
+
+{
+  const isPrivate2 = 22;
+  var notPrivate = 23;
+}
+
+console.log(isPrivate);
+//not working
+console.log(notPrivate);
+//working
+
+/* -------------------------------- CLOSURES -------------------------------- */
+
+//closures created in certain situations
+/*
+const secureBooking = function () {
+  let passangerCount = 0;
+
+  return function () {
+    passangerCount++;
+    console.log(`${passangerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+//calling secureBooking function will return anonymous function that will be stored as booker
+
+booker();
+// 1 passenger
+
+booker();
+// 2 passenger
+
+booker();
+// 3 passenger
+
+// booker function has access to variables that were present at the time when function were created
+
+// CLOSURE
+// makes function remember all variables at birthplace
+
+Any function always has access to the variable environment
+
+of the execution context in which the function was created.
+
+
+
+So a function always has access to the variable environment
+
+of the execution context in which it was created,
+
+even after a debt execution context is gone.
+
+
+The closure is then basically this variable environment
+
+attached to the function,
+
+exactly as it was at the time and place
+
+that the function was created.
+
+console.dir(booker);
+*/
+
+// Examples:
+
+/* ------------------------ reassigning the function ------------------------ */
+/*
+let f;
+
+const g = function () {
+  const a = 25;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+g();
+f();
+
+// f function has access to a even after g was executed
+
+let f;
+
+const g = function () {
+  const a = 25;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 555;
+
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+console.dir(f);
+// has access to a
+
+// Re assigning f function
+h();
+f();
+
+console.dir(f);
+// has access to b but not to a anymore
+
+/// example 2
+
+/* ---------------------------------- timer --------------------------------- */
+/*
+const boardPassangers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are no boarding all ${n} passenger`);
+    console.log(`There are 3 groups, each with ${perGroup} passangers`);
+  }, wait * 1000);
+
+  console.log(`will start boarding in ${wait} seconds`);
+};
+
+boardPassangers(180, 3);
+*/
+/* --------------------------- Coding Challenge #2 -------------------------- */
+
+/* 
+This is more of a thinking challenge than a coding challenge 🤓
+
+Take the IIFE below and at the end of the function, attach an event listener that changes the color of the selected h1 element ('header') to blue, each time the BODY element is clicked. Do NOT select the h1 element again!
+
+And now explain to YOURSELF (or someone around you) WHY this worked! Take all the time you need. Think about WHEN exactly the callback function is executed, and what that means for the variables involved in this example.
+
+GOOD LUCK 😀
+*/
+
+/*
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'blue';
+  });
+})();
+*/
