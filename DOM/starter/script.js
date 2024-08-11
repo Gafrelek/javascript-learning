@@ -177,6 +177,7 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 // // Don't use
 // logo.clasName = 'jonas';
 
+//////////////////////////////////////////////////
 // Types of Events and Event Handlers
 // 1 eventListener
 // const h1 = document.querySelector('h1');
@@ -197,6 +198,7 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 // 3rd option is directly in HTML
 // <!-- <h1 onclick="alert('HTML alert')"> -->
 
+/////////////////////
 // EVENTS - BUBBLING and CAPTURING
 /*
 
