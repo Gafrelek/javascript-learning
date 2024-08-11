@@ -1,12 +1,14 @@
 'use strict';
 
 ///////////////////////////////////////
-// Modal window
-
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+// Modal window
 
 const openModal = function (e) {
   e.preventDefault();
@@ -32,9 +34,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
-
+/// Button Scrolling
 btnScrollTo.addEventListener('click', function (e) {
   const s1coords = section1.getBoundingClientRect();
   console.log(s1coords);
@@ -62,6 +62,31 @@ btnScrollTo.addEventListener('click', function (e) {
 
   section1.scrollIntoView({ behavior: 'smooth' });
 });
+
+//// Page navigation
+
+// document.querySelectorAll('.nav__link').forEach(function (el) {
+//   el.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//   });
+// });
+
+// 1. Add event listener to common parent element
+// 2. Determine what element originated the event
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  //// Matchin strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
 ///////////////////////////////////////
 ///////////////////////////////////////
 // Selecting, Creating, and Deleting Elements
@@ -151,3 +176,65 @@ btnScrollTo.addEventListener('click', function (e) {
 
 // // Don't use
 // logo.clasName = 'jonas';
+
+// Types of Events and Event Handlers
+// 1 eventListener
+// const h1 = document.querySelector('h1');
+
+// const alertH1 = function (e) {
+//   alert('youre reading heding');
+
+//   h1.removeEventListener('mouseenter', alertH1);
+// };
+
+// h1.addEventListener('mouseenter', alertH1);
+
+// 2. older one time per event
+// h1.onmouseenter = function (e) {
+//   alert('youre reading heding');
+// };
+
+// 3rd option is directly in HTML
+// <!-- <h1 onclick="alert('HTML alert')"> -->
+
+// EVENTS - BUBBLING and CAPTURING
+/*
+
+1. capturing phase
+Click happens on paragraph
+Event is generated at the root, then it will pass through parents elemtents untill reaches the target element.
+
+2. target phase
+event listener will run the callback function
+
+3. bubblin phase
+the event travel up through parents up to root
+
+as if event happened in the parent element (if there is event listener)
+target and bubling phase  = event propegating
+*/
+///////////////////////////////////////
+// Event Propagation in Practice
+// const randomInt = (min, max) =>
+//   Math.floor(Math.random() * (max - min + 1) + min);
+// const randomColor = () =>
+//   `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+// document.querySelector('.nav__link').addEventListener('click', function (e) {
+//   this.style.backgroundColor = randomColor();
+//   console.log('LINK', e.target, e.currentTarget);
+//   console.log(e.currentTarget === this);
+
+//   // Stop propagation
+//   // e.stopPropagation();
+// });
+
+// document.querySelector('.nav__links').addEventListener('click', function (e) {
+//   this.style.backgroundColor = randomColor();
+//   console.log('CONTAINER', e.target, e.currentTarget);
+// });
+
+// document.querySelector('.nav').addEventListener('click', function (e) {
+//   this.style.backgroundColor = randomColor();
+//   console.log('NAV', e.target, e.currentTarget);
+// });
