@@ -133,6 +133,71 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
 ///////////////////////////////////////
+// Sticky navigation
+// const initialCoords = section1.getBoundingClientRect();
+
+// window.addEventListener('scroll', function (e) {});
+
+// Sticky navigation: Intersection Observer API
+
+/*
+const obsCallaback = function (entries, observer) {
+  entries.forEach(entry => console.log(entry));
+};
+//callback function called each time that the observed elemtent (target) is intersecting the root element at the thershold that we defined.
+
+const obsOption = { root: null, threshold: [0.1, 0.2] };
+//options
+need root property - it is element that target is intercepting
+we can select element OR set null then we would se target intersecting whole viewport
+
+
+threshold: percecnctage of intersection at which the observer callback will be called, there can be several thresholds in array
+
+const observer = new IntersectionObserver(obsCallaback, obsOption);
+// section1 is target
+observer.observe(section1);
+*/
+const header = document.querySelector('.header');
+
+const navHeight = nav.getBoundingClientRect().height;
+const obsOption = { root: null, threshold: [0], rootMargin: `-${navHeight}px` };
+
+const stickyNav = function (entries, headerObserver) {
+  const [entry] = entries;
+  // console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(stickyNav, obsOption);
+
+// section1 is target
+headerObserver.observe(header);
+
+///////////////////////////////////////
+// Reveal sections
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
+
+///////////////////////////////////////
 ///////////////////////////////////////
 // Selecting, Creating, and Deleting Elements
 
