@@ -1,6 +1,8 @@
 'use strict';
 
-// // Constructor Functions and the new Operator
+/*
+///////////////////////////////////////
+// Constructor Functions and the new Operator
 const Person = function (firstName, birthYear) {
   // Instance properties
   this.firstName = firstName;
@@ -13,7 +15,7 @@ const Person = function (firstName, birthYear) {
 };
 
 const jonas = new Person('Jonas', 1991);
-// console.log(jonas);
+console.log(jonas);
 
 // 1. New {} is created
 // 2. function is called, this = {}
@@ -23,68 +25,65 @@ const jonas = new Person('Jonas', 1991);
 const matilda = new Person('Matilda', 2017);
 const jack = new Person('Jack', 1975);
 
-// console.log(jonas instanceof Person);
+console.log(jonas instanceof Person);
 
 Person.hey = function () {
   console.log('Hey there 👋');
   console.log(this);
 };
-// Person.hey();
+Person.hey();
 
 ///////////////////////////////////////
-// // Prototypes
-// console.log(Person.prototype);
+// Prototypes
+console.log(Person.prototype);
 
-// Person.prototype.calcAge = function () {
-//   console.log(2037 - this.birthYear);
-// };
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
 
-// // jonas.calcAge();
-// // matilda.calcAge();
+jonas.calcAge();
+matilda.calcAge();
 
-// console.log(jonas.__proto__);
-// console.log(
-//   `Jonas object prototype is construction funtion's prototype property:`
-// );
-// console.log(jonas.__proto__ === Person.prototype);
-// // Person.prototype will be used as prototype of all objects that are created with the Person constructions function. Not prototype of Person (its Object.prototype)
+console.log(jonas.__proto__);
+console.log(jonas.__proto__ === Person.prototype);
 
-// console.log(Person.prototype.isPrototypeOf(jonas));
-// console.log(Person.prototype.isPrototypeOf(matilda));
-// console.log(Person.prototype.isPrototypeOf(Person));
-// console.log(Object.prototype.isPrototypeOf(Person));
+console.log(Person.prototype.isPrototypeOf(jonas));
+console.log(Person.prototype.isPrototypeOf(matilda));
+console.log(Person.prototype.isPrototypeOf(Person));
 
-// // .prototype could be named.prototypeOfLinkedObjects
+// .prototyeOfLinkedObjects
 
-// // Person.prototype.species = 'Homo Sapiens';
-// // console.log(jonas.species, matilda.species);
+Person.prototype.species = 'Homo Sapiens';
+console.log(jonas.species, matilda.species);
 
-// // console.log(jonas.hasOwnProperty('firstName'));
-// // console.log(jonas.hasOwnProperty('species'));
+console.log(jonas.hasOwnProperty('firstName'));
+console.log(jonas.hasOwnProperty('species'));
 
-// // Prototypal Inheritance on Built-In Objects
-// console.log(jonas.__proto__);
-// // Object.prototype (top of prototype chain)
-// console.log(jonas.__proto__.__proto__);
-// console.log(jonas.__proto__.__proto__.__proto__);
 
-// console.dir(Person.prototype.constructor);
+///////////////////////////////////////
+// Prototypal Inheritance on Built-In Objects
+console.log(jonas.__proto__);
+// Object.prototype (top of prototype chain)
+console.log(jonas.__proto__.__proto__);
+console.log(jonas.__proto__.__proto__.__proto__);
 
-// const arr = [3, 6, 6, 5, 6, 9, 9]; // new Array === []
-// console.log(arr.__proto__);
-// console.log(arr.__proto__ === Array.prototype);
+console.dir(Person.prototype.constructor);
 
-// console.log(arr.__proto__.__proto__);
+const arr = [3, 6, 6, 5, 6, 9, 9]; // new Array === []
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype);
 
-// Array.prototype.unique = function () {
-//   return [...new Set(this)];
-// };
+console.log(arr.__proto__.__proto__);
 
-// console.log(arr.unique());
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
 
-// const h1 = document.querySelector('h1');
-// console.dir(x => x + 1);
-// */
+console.log(arr.unique());
+
+const h1 = document.querySelector('h1');
+console.dir(x => x + 1);
+*/
 
 ///////////////////////////////////////
 // Coding Challenge #1
@@ -101,32 +100,30 @@ DATA CAR 2: 'Mercedes' going at 95 km/h
 GOOD LUCK 😀
 */
 
+/*
 const Car = function (make, speed) {
   this.make = make;
   this.speed = speed;
 };
 
-Car.prototype.accelerate = function (speed) {
+Car.prototype.accelerate = function () {
   this.speed += 10;
-  console.log(`Accelerated speed ${this.speed} km/h`);
+  console.log(`${this.make} is going at ${this.speed} km/h`);
 };
 
-Car.prototype.break = function (speed) {
+Car.prototype.brake = function () {
   this.speed -= 5;
-  console.log(` ${this.speed} km/h`);
+  console.log(`${this.make} is going at ${this.speed} km/h`);
 };
 
-const car1 = new Car('BMW', 120);
-const car2 = new Car('Mercedes', 95);
-// console.log(car1);
-// console.log(car2);
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
 
-// car1.accelerate();
-// car1.accelerate();
-// car1.accelerate();
-// car1.accelerate();
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.accelerate();
 
-// car2.break();
 
 ///////////////////////////////////////
 // ES6 Classes
@@ -190,3 +187,119 @@ jessica.greet();
 
 const walter = new PersonCl('Walter White', 1965);
 // PersonCl.hey();
+
+
+///////////////////////////////////////
+// Setters and Getters
+const account = {
+  owner: 'Jonas',
+  movements: [200, 530, 120, 300],
+
+  get latest() {
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movements.push(mov);
+  },
+};
+
+console.log(account.latest);
+
+account.latest = 50;
+console.log(account.movements);
+
+
+///////////////////////////////////////
+// Object.create
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2002;
+steven.calcAge();
+
+console.log(steven.__proto__ === PersonProto);
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1979);
+sarah.calcAge();
+*/
+
+///////////////////////////////////////
+// Coding Challenge #2
+
+/* 
+1. Re-create challenge 1, but this time using an ES6 class;
+2. Add a getter called 'speedUS' which returns the current speed in mi/h (divide by 1.6);
+3. Add a setter called 'speedUS' which sets the current speed in mi/h (but converts it to km/h before storing the value, by multiplying the input by 1.6);
+4. Create a new car and experiment with the accelerate and brake methods, and with the getter and setter.
+
+DATA CAR 1: 'Ford' going at 120 km/h
+
+GOOD LUCK 😀
+*/
+/*
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
+
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.accelerate();
+*/
+class CarCL {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  break() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed} km/h`);
+  }
+
+  get speedUS() {
+    return this.speed / 1.6;
+  }
+
+  set speedUS(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+const ford = new CarCL('Ford', 120);
+console.log('speed ' + ford.speedUS);
+ford.accelerate;
+ford.speedUS = 50;
+
+console.log(ford);
