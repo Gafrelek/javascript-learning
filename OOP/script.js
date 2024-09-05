@@ -340,7 +340,6 @@ console.log(mike instanceof Object);
 
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor);
-*/
 
 ///////////////////////////////////////
 // Coding Challenge #3
@@ -355,6 +354,28 @@ DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
 
 GOOD LUCK 😀
 */
+
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed} km/h`);
+};
+
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
+
+const EV = function name(make, speed, charge) {
+  this.charge = charge;
+};
 
 ///////////////////////////////////////
 // Inheritance Between "Classes": Constructor Functions
@@ -393,7 +414,6 @@ console.log(mike instanceof Object);
 
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor);
-*/
 
 ///////////////////////////////////////
 // Coding Challenge #3
@@ -405,7 +425,6 @@ console.dir(Student.prototype.constructor);
 4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
 
 DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
-
 GOOD LUCK 😀
 */
 
