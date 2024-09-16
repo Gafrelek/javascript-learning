@@ -10,40 +10,50 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+
 let map, mapEvent;
 
-if (navigator.geolocation)
-  navigator.geolocation.getCurrentPosition(
-    function (position) {
-      const { latitude } = position.coords;
-      const { longitude } = position.coords;
-      //Converting coordinates to 2 decimal point
-      const coord = [
-        parseFloat(latitude.toFixed(2)),
-        parseFloat(longitude.toFixed(2)),
-      ];
+class App {
+  constructor() {}
 
-      map = L.map('map').setView(coord, 13);
-
-      L.tileLayer('https://tile.openstreetmap.fr/hot//{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
-
-      // Handling cliks on map
-      map.on('click', function (mapE) {
-        mapEvent = mapE;
-        form.classList.remove('hidden');
-        inputDistance.focus();
-
-        console.log(mapEvent);
+  _getPosition() {
+    if (navigator.geolocation)
+      navigator.geolocation.getCurrentPosition(this._loadMap, function () {
+        alert(`could not get your position`);
       });
-    },
-    function () {
-      alert(`could not get your position`);
-    }
-  );
+  }
+
+  _loadMap(position) {
+          const { latitude } = position.coords;
+          const { longitude } = position.coords;
+          //Converting coordinates to 2 decimal point
+          const coord = [
+            parseFloat(latitude.toFixed(2)),
+            parseFloat(longitude.toFixed(2)),
+          ];
+
+          map = L.map('map').setView(coord, 13);
+
+          L.tileLayer('https://tile.openstreetmap.fr/hot//{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution:
+              '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          }).addTo(map);
+
+          // Handling cliks on map
+          map.on('click', function (mapE) {
+            mapEvent = mapE;
+            form.classList.remove('hidden');
+            inputDistance.focus();
+
+            console.log(mapEvent);
+          });
+        }}
+  _showForm() {}
+  _toggleElevationField() {}
+  _newWorkout() {}
+
+const app = new App();
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
