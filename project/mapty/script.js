@@ -3,6 +3,7 @@
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
+  clicks = 0;
 
   constructor(coords, distance, duration) {
     this.coords = coords;
@@ -17,6 +18,10 @@ class Workout {
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
+  }
+
+  click() {
+    this.clicks++;
   }
 }
 
@@ -70,6 +75,7 @@ class App {
   #map;
   #mapEvent;
   #workouts = [];
+  #mapZoomLevel = 13;
 
   constructor() {
     this._getPosition();
@@ -97,7 +103,7 @@ class App {
       parseFloat(longitude.toFixed(2)),
     ];
 
-    this.#map = L.map('map').setView(coord, 13);
+    this.#map = L.map('map').setView(coord, this.#mapZoomLevel);
 
     L.tileLayer('https://tile.openstreetmap.fr/hot//{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -255,13 +261,21 @@ class App {
     const workoutEl = e.target.closest('.workout');
     console.log(workoutEl);
 
-    if (!workoutEl) returns;
+    if (!workoutEl) return;
 
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
 
-    this.#map.setView();
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+
+    /// using public interface
+    workout.click();
   }
 }
 
