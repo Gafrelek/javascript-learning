@@ -228,23 +228,54 @@ TEST COORDINATES 2: -33.933, 18.474
 
 GOOD LUCK 😀
 */
-const whereAmI = function (latitude, longitude) {
-  const data = fetch(
-    `https://api-bdc.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-  )
-    .then(response => {
-      if (!response.ok)
-        throw new Error(` SOmething went wrong! ${response.status}`);
+// const whereAmI = function (latitude, longitude) {
+//   const data = fetch(
+//     `https://api-bdc.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+//   )
+//     .then(response => {
+//       if (!response.ok)
+//         throw new Error(` SOmething went wrong! ${response.status}`);
 
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-      console.log(`You are in ${data.city}, ${data.countryName}`);
-      getCountryData2(data.countryName);
-    })
-    .catch(err => {
-      console.error(err);
-    });
-};
-whereAmI(-33.933, 18.474);
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log(data);
+//       console.log(`You are in ${data.city}, ${data.countryName}`);
+//       getCountryData2(data.countryName);
+//     })
+//     .catch(err => {
+//       console.error(err);
+//     });
+// };
+// whereAmI(-33.933, 18.474);
+
+///////////////////////////////
+// // Creating promises
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('Lottery Draw');
+
+//   setTimeout(function () {
+//     if (Math.random() >= 0.5) {
+//       resolve(`You win`);
+//     } else {
+//       reject(new Error(' You lost your money'));
+//     }
+//   }, 2000);
+// });
+
+// lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+// ////// Promisyfyin Set Timeout
+
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds) * 1000;
+//   });
+// };
+
+// wait(2)
+//   .then(() => {
+//     console.log('I waited for 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => console.log('I waited 1 secons'));
