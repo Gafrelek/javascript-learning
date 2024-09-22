@@ -112,7 +112,7 @@ const getCountryAndNeighbourData = function (country) {
 
 // consuming Promises
 
-const request = fetch(`https://restcountries.com/v3.1/name/portugal`);
+// const request = fetch(`https://restcountries.com/v3.1/name/portugal`);
 // console.log(request);
 
 // const getCountryData2 = function (country) {
@@ -228,3 +228,23 @@ TEST COORDINATES 2: -33.933, 18.474
 
 GOOD LUCK 😀
 */
+const whereAmI = function (latitude, longitude) {
+  const data = fetch(
+    `https://api-bdc.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+  )
+    .then(response => {
+      if (!response.ok)
+        throw new Error(` SOmething went wrong! ${response.status}`);
+
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.city}, ${data.countryName}`);
+      getCountryData2(data.countryName);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+whereAmI(-33.933, 18.474);
