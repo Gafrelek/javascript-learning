@@ -22,12 +22,13 @@ const renderCountryInfo = function (data, className = '') {
     </div>
     </article>
   `;
-
   countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = 1;
 };
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentHTML('beforeend', msg);
+  countriesContainer.style.opacity = 1;
 };
 
 ///////////////////////////////////////
@@ -404,7 +405,7 @@ const whereAmI2 = async function (country) {
   try {
     // Geolocation
     const pos = await getPosition();
-    const { lattitude: lat, longitude: lng } = pos.cords;
+    const { lattitude: lat, longitude: lng } = pos.coords;
 
     // Reverse geocoding
     const resGeo = await fetch(
@@ -413,22 +414,31 @@ const whereAmI2 = async function (country) {
     if (!resGeo.ok) throw new Error(`Problem getting location data`);
 
     const dataGeo = await resGeo.json();
+    console.log(dataGeo);
 
     // Country data
     const response = await fetch(
-      `https://restcountries.com/v3.1/name/${response.country}`
+      `https://restcountries.com/v3.1/name/${dataGeo.countryName}`
     );
     if (!response.ok) throw new Error(`Problem getting country`);
 
     const data = await response.json();
     renderCountryInfo(data[0]);
+    // console.log(`You are in ${dataGeo.city}, ${dataGeo.countryName}`);
+
+    return `You are in ${dataGeo.city}, ${dataGeo.countryName}`;
   } catch (err) {
     console.error(err);
     renderError(`Something went wrong ${err.message}`);
+
+    // Reject promise returned from async function
+    throw err;
   }
 };
 
-whereAmI2();
+console.log(`1: WIll get location`);
+// const city = whereAmI2();
+// console.log(city);
 
 // try {
 //   let y = 1;
@@ -437,3 +447,19 @@ whereAmI2();
 // } catch (err) {
 //   alert(err.message);
 // }
+
+// whereAmI2()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2: ${err.message}`))
+//   .finally(() => console.log(`3: Finished getting location`));
+
+(async function () {
+  try {
+    const city = await whereAmI2();
+    console.log(`2: ${city}`);
+    const respons2 = await response.ajax();
+  } catch (err) {
+    err => console.error(`2: ${err.message}`);
+  }
+  console.log(`3: Finished getting location`);
+})();
