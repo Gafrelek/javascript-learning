@@ -16,6 +16,12 @@ class RecipeView {
     this.#parentElement.innerHTML = '';
   }
 
+  addHandlerRender(handler) {
+    const events = ['hashchange', 'load'].forEach(ev =>
+      window.addEventListener(ev, handler)
+    );
+  }
+
   renderSpiner() {
     const markup = `<div class="spinner">
           <svg>
